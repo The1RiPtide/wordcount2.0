@@ -59,7 +59,6 @@ def startScreen(stdscr):
 
 
     stdscr.clear()
-
     stdscr.refresh()
 
     stdscr.addstr(1, 4, "Please Enter your goal for today: ")
@@ -68,22 +67,14 @@ def startScreen(stdscr):
     curses.curs_set(1)
 
     goalStringRaw = str(stdscr.getstr(3,4))
-
     goalString = goalStringRaw[2 : (len(goalStringRaw)-1)]
-
-    # stdscr.clear()
-    # stdscr.addstr(1, 4, "Your Goal was set to: %s" % goalString)
-    # stdscr.refresh()
-    # time.sleep(5)
 
     curses.noecho()
     curses.curs_set(0)
 
     goalInt = inputGoal(goalString, stdscr)
 
-    stdscr.addstr(1, 4, "Your Goal was set to: %d" % goalInt)
-    stdscr.refresh()
-    time.sleep(5)
+    return goalInt
 
 def main(stdscr):
 
@@ -91,7 +82,14 @@ def main(stdscr):
 
     stdscr.keypad(True)
 
-    startScreen(stdscr)
+    goal = -1
+
+    while goal < 0:
+        goal = startScreen(stdscr)
+
+    stdscr.addstr(1, 4, "Your Goal was set to: %d" % goal)
+    stdscr.refresh()
+    time.sleep(5)
 
 curses.wrapper(main(stdscr))
 
